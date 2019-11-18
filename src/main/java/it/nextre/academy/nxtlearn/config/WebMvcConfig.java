@@ -12,6 +12,9 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 
 // @EnableWebMvc //se attivato resetta la pre-configurazione di springboot e sarà necessario specificare nuovamente tutte le configurazioni del viewResolver e altro...
@@ -64,4 +67,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         ;
     }
 
+    @Bean
+    public SpringTemplateEngine templateEngine(ITemplateResolver templateResolver, SpringSecurityDialect sec) {
+        final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver);
+        templateEngine.addDialect(sec); // Enable use of "sec"
+        return templateEngine;
+    }
 }//end class
