@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
@@ -75,4 +72,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         templateEngine.addDialect(sec); // Enable use of "sec"
         return templateEngine;
     }
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/api/**").allowedOrigins("http://localhost:4200").allowedMethods("GET","POST","PUT","DELETE","OPTIONS","PATCH","HEAD");
+//        registry.addMapping("/login/").allowedOrigins("http://localhost:4200").allowedMethods("GET","POST","OPTIONS","PATCH","HEAD");
+//    }
 }//end class
