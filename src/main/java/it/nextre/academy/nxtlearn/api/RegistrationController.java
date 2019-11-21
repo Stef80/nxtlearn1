@@ -24,7 +24,7 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/register")
-// @CrossOrigin
+//@CrossOrigin
 public class RegistrationController {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -29,8 +29,9 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
         log.debug("Calling loadUserByUsername method with username: " + username);
 
         Utenza tmp = utenzaRepository.findByEmail(username);
-        if(tmp == null ) throw  new UsernameNotFoundException("USERNAME NON VALIDO");
-        log.debug("trovato utente: "+tmp);
+        if (tmp == null)
+            throw new UsernameNotFoundException("USERNAME NON VALIDO");
+        log.debug("loggato utente: "+tmp);
         //System.out.println("####"+tmp);
         //System.out.println("####"+new CustomUserDetails(tmp));
 
