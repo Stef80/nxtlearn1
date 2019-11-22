@@ -15,7 +15,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,9 +43,22 @@ public class GuidaRestController {
     }
 
     @GetMapping
-    public List<Guida> getGuide() {
+    public List<GuidaDto> getGuide() {
         logger.info("Log: getGuide()");
-        return guidaService.getAll();
+        List<GuidaDto> out = new ArrayList<>();
+         guidaService.getAll().stream().forEach(g->{
+             GuidaDto tmp = new GuidaDto();
+             tmp.setNome(g.getNome());
+             tmp.setId(g.getId());
+             tmp.setDescrizione(g.getDescrizione());
+             tmp.setImage(g.getImagePath());
+             Map<String , Object> tmpLiv = new HashMap<>();
+             tmpLiv.put("id", g.getLivello().getId());
+             tmpLiv.put("descrizione",g.getLivello().getDescrizione());
+             tmpLiv.put("difficolta",g.getLivello().getDifficolta());
+             tmp.setLivello(tmpLiv);
+         });
+         return out;
     }
 
     @PutMapping("/{id}")
