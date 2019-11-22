@@ -45,20 +45,23 @@ public class GuidaRestController {
     @GetMapping
     public List<GuidaDto> getGuide() {
         logger.info("Log: getGuide()");
+
         List<GuidaDto> out = new ArrayList<>();
-         guidaService.getAll().stream().forEach(g->{
-             GuidaDto tmp = new GuidaDto();
-             tmp.setNome(g.getNome());
-             tmp.setId(g.getId());
-             tmp.setDescrizione(g.getDescrizione());
-             tmp.setImage(g.getImagePath());
-             Map<String , Object> tmpLiv = new HashMap<>();
-             tmpLiv.put("id", g.getLivello().getId());
-             tmpLiv.put("descrizione",g.getLivello().getDescrizione());
-             tmpLiv.put("difficolta",g.getLivello().getDifficolta());
-             tmp.setLivello(tmpLiv);
-         });
-         return out;
+        guidaService.getAll().stream().forEach(g->{
+            GuidaDto tmp = new GuidaDto();
+            tmp.setId(g.getId());
+            tmp.setDescrizione(g.getDescrizione());
+            tmp.setImage(g.getImagePath());
+            Map<String, Object> tmpLiv = new HashMap<>();
+            tmpLiv.put("id",g.getLivello().getId());
+            tmpLiv.put("descrizione",g.getLivello().getDescrizione());
+            tmpLiv.put("difficolta",g.getLivello().getDifficolta());
+            tmp.setLivello(tmpLiv);
+            tmp.setNome(g.getNome());
+            out.add(tmp);
+        });
+
+        return out ;
     }
 
     @PutMapping("/{id}")
