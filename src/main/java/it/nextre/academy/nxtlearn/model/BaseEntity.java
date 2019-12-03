@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 public class BaseEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
 
     @Temporal(TemporalType.TIMESTAMP) //Imposto il tipo che avranno all'interno del db

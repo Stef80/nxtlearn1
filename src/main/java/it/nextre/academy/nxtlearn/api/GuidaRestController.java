@@ -1,10 +1,13 @@
 package it.nextre.academy.nxtlearn.api;
 
 import it.nextre.academy.nxtlearn.dto.GuidaDto;
+import it.nextre.academy.nxtlearn.dto.GuidaDtoInserimento;
 import it.nextre.academy.nxtlearn.exception.BadRequestException;
 import it.nextre.academy.nxtlearn.exception.GuidaNotFoundException;
 import it.nextre.academy.nxtlearn.model.Guida;
+import it.nextre.academy.nxtlearn.model.Livello;
 import it.nextre.academy.nxtlearn.service.GuidaService;
+import it.nextre.academy.nxtlearn.service.LivelloService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class GuidaRestController {
 
     @Autowired
     GuidaService guidaService;
+
+    @Autowired
+    LivelloService livelloService;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -91,24 +97,33 @@ public class GuidaRestController {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping
-    public Guida addOne(@RequestBody @Valid Guida tmp, BindingResult validator) {
-        logger.debug("LOG: addOne()");
-        System.out.println(tmp);
-
-        if (validator.hasErrors()) {
-            logger.debug("LOG: validator.hasErrors()");
-            String errs = validator.getAllErrors()
-                    .stream()
-                    .map(e -> e.getDefaultMessage())
-                    .collect(Collectors.joining(", "));
-            throw new BadRequestException(errs);
+        @PostMapping
+        public GuidaDtoInserimento addOne(@RequestBody @Valid GuidaDtoInserimento tmp, BindingResult validator) {
+            logger.debug("LOG: addOne()");
+            System.out.println(tmp);
+            Guida g = new Guida();
+            if (validator.hasErrors()) {
+                logger.debug("LOG: validator.hasErrors()");
+                String errs = validator.getAllErrors()
+                        .stream()
+                        .map(e -> e.getDefaultMessage())
+                        .collect(Collectors.joining(", "));
+                throw new BadRequestException(errs);
+            }
+            List<Livello> livelli = livelloService.getAll();
+            if (tmp != null) {
+                g.setNome(tmp.getNome());
+                g.setDescrizione(tmp.getDescrizione());
+                for (int i = 0; i < livelli.size(); i++) {
+                    if(livelli.get(i).getDifficolta().equals(tmp.getDifficolta())){
+                        g.setLivello(livelli.get(i));
+                    }
+                }
+            }
+            System.out.println("GUIDAAAAA:" + g );
+            System.out.println("GUIDA TDOOOO: " + tmp);
+            return guidaService.toDtoIns(g);
         }
-        if (tmp != null) {
-            guidaService.newGuida(tmp);
-        }
-        return tmp;
-    }
 
 
 

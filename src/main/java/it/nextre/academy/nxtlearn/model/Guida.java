@@ -33,16 +33,14 @@ public class Guida extends BaseEntity{
     private String nome;
 
     @Size(max=255,message = "URL guida max 255 caratteri")
-    @Null
+
     private String url;
 
     @Type(type="text") // LONGTEXT in mySQL
     // @Lob
-    @Null
     private String descrizione;
 
     @Size(max=255,message = "Path immagine max 255 caratteri")
-    @Null
     private String imagePath;
 
     @ManyToOne

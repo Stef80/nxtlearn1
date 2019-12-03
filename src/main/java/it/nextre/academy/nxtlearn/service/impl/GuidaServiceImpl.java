@@ -1,14 +1,17 @@
 package it.nextre.academy.nxtlearn.service.impl;
 
 import it.nextre.academy.nxtlearn.dto.GuidaDto;
+import it.nextre.academy.nxtlearn.dto.GuidaDtoInserimento;
 import it.nextre.academy.nxtlearn.model.Guida;
 
+import it.nextre.academy.nxtlearn.model.Livello;
 import it.nextre.academy.nxtlearn.repository.AllegatoRepository;
 import it.nextre.academy.nxtlearn.repository.CapitoloRepository;
 import it.nextre.academy.nxtlearn.repository.GuidaRepository;
 import it.nextre.academy.nxtlearn.repository.LezioneRepository;
 import it.nextre.academy.nxtlearn.service.GuidaService;
 
+import it.nextre.academy.nxtlearn.service.LivelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,8 @@ public class GuidaServiceImpl implements GuidaService {
     @Autowired
     AllegatoRepository allegatoRepository;
 
+    @Autowired
+    LivelloService livelloService;
         
     @Override
     public Guida findById(Integer id) {
@@ -44,9 +49,14 @@ public class GuidaServiceImpl implements GuidaService {
     }
 
     @Override
-    public Guida newGuida(Guida g) {
+    public GuidaDto newGuida(GuidaDto g) {
+        Guida tmp = new Guida();
         if (g != null && g.getId() == null) {
-            g = guidaRepository.save(g);
+        tmp.setNome(g.getNome());
+        tmp.setDescrizione(g.getDescrizione());
+      Livello lmp = livelloService.findById((Integer) g.getLivello().get(1));
+       tmp.setLivello(lmp);
+            guidaRepository.save(tmp);
             return g;
         }
         return null;
@@ -77,6 +87,13 @@ public class GuidaServiceImpl implements GuidaService {
         //versione 2 : il DTO stesso è responsabile del suo popolamento
         GuidaDto gdto = new GuidaDto(guida);
         gdto.caricaCapitoli(capitoloRepository, lezioneRepository, allegatoRepository);
+        return gdto;
+    }
+
+    @Override
+    public GuidaDtoInserimento toDtoIns(Guida g) {
+        GuidaDtoInserimento gdto =  new GuidaDtoInserimento(g);
+        guidaRepository.save(g);
         return gdto;
     }
 
