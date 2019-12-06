@@ -44,6 +44,7 @@ public class Guida extends BaseEntity{
     private String imagePath;
 
     @ManyToOne
+    @JsonManagedReference
     private Livello livello;
 
     /*
@@ -62,7 +63,20 @@ public class Guida extends BaseEntity{
 
 
     @OneToMany(mappedBy = "guida")
+    @JsonManagedReference
     private List<Capitolo> capitoli;
 
 
+    @Override
+    public String toString() {
+        return "Guida{" +
+                "nome='" + nome + '\'' +
+                ", url='" + url + '\'' +
+                ", descrizione='" + descrizione + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", id=" + id +
+                ", dataCreazione=" + dataCreazione +
+                ", dataModifica=" + dataModifica +
+                '}';
+    }
 }//end class

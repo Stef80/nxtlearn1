@@ -1,18 +1,18 @@
 package it.nextre.academy.nxtlearn.service;
 import it.nextre.academy.nxtlearn.dto.GuidaDto;
-import it.nextre.academy.nxtlearn.dto.GuidaDtoInserimento;
 import it.nextre.academy.nxtlearn.model.Guida;
 import java.util.List;
 public interface GuidaService {
     Guida findById(Integer id);
     List<Guida> getAll();
-    GuidaDto newGuida(GuidaDto g);
+    Guida newGuida(Guida g);
     Guida update(Guida g);
     Boolean deleteById(Integer id);
-    GuidaDto toDto(Guida guida);
-    GuidaDtoInserimento toDtoIns(Guida g);
+    GuidaDto toDto(Guida guida, Boolean soloIntestazione);
 
     List<Guida> getLastTen();
 
     List<Guida> findByNome(String nome);
+
+    Guida save(Guida guida);
 }
